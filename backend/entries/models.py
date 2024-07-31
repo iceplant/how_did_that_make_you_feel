@@ -4,16 +4,23 @@ sid = SentimentIntensityAnalyzer()
 
 # Create your models here.
 class Entry(models.Model):
-    title=models.CharField(max_length=150)
-    description=models.CharField(max_length=500)
+    title=models.CharField(default="", max_length=150)
+    description=models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     # modified at?
-    sentiment = models.FloatField(default=0)
+    # sentiment = models.FloatField(default=0)
 
     @property
-    def calculate_sentiment(self):
+    def sentiment(self):
+        print("reached sentiment calculation")
+        print("description: ", self.description)
         ss = sid.polarity_scores(self.description)
+        print(f"ss is {ss}")
         return ss['compound']
+    
+    # def save(self, *args, **kwargs):
+    #     # Automatically set the selling_price before saving
+    #     super().save(*args, **kwargs)
 
 
     def __str__(self):

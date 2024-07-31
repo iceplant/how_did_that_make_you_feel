@@ -80,7 +80,7 @@ function App() {
     const events = resp.data;
     console.log("events: ", events, typeof(events));
     // console.log("emotions: ", events[9]?.emotions[0][15]);
-    console.log("emotions map: ", events.map(event => event.emotions[0][15].score));
+    // console.log("emotions map: ", events?.map(event => event?.emotions[0][15].score));
     setEventsList(events);
   };
 
@@ -95,7 +95,7 @@ function App() {
   const handleDelete = async (event) => {
     const id = event.id;
     try {
-      await axios.delete(`${baseUrl}/tasks/${id}/`);
+      await axios.delete(`${baseUrl}/entries/${id}/`);
       const updatedList = eventsList.filter((event) => event.id !== id);
       setEventsList(updatedList);
     } catch (err) {
@@ -112,7 +112,7 @@ function App() {
   const handleEditSubmit = async (e) => {
     e.preventDefault(); //prevents page from refreshing
     try {
-      const url = `${baseUrl}/tasks/${eventIdBeingEdited}/`;
+      const url = `${baseUrl}/entries/${eventIdBeingEdited}/`;
       console.log(url);
       const data = await axios.put(url, { description: editDescription });
       // console.log(editDescription);
@@ -139,8 +139,8 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevents page from refreshing
     try {
-      const data = await axios.post(`${baseUrl}/tasks/`, { description });
-      console.log(description);
+      console.log(`${baseUrl}/entries/`, { description });
+      const data = await axios.post(`${baseUrl}/entries/`, { "description" : description });
       setEventsList([...eventsList, data.data]);
       setDescription("");
     } catch (err) {
@@ -162,13 +162,13 @@ function App() {
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       },
-      {
-        label: "Gratitude",
-        data: eventsList.map(event => event.emotions[0][15].score),
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      }
+      // {
+      //   label: "Gratitude",
+      //   data: eventsList.map(event => event.emotions[0][15].score),
+      //   fill: true,
+      //   backgroundColor: "rgba(75,192,192,0.2)",
+      //   borderColor: "rgba(75,192,192,1)"
+      // }
     ]
   };
 
