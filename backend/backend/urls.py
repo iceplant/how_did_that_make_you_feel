@@ -19,7 +19,7 @@ from django.urls import path, include
 from entries import views
 from rest_framework import routers
 router = routers.DefaultRouter()
-router.register(r'tasks',views.EntryView, 'task')
+router.register(r'entries',views.EntryView, 'entry')
 
 
 
