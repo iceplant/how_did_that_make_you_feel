@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { format } from "date-fns";
-import "./App.css";
+// import "./App.css";
 import { Line } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-moment';
+import styles from "./App.module.css"
 
 
 const baseUrl = "http://localhost:8000/api";
@@ -184,67 +185,10 @@ function App() {
     setChecked(prevChecked => ({...prevChecked, [emotion]: !prevChecked[emotion]}));
   }
 
-
-  // {
-  //   label: "Gratitude",
-  //   data: eventsList.map(event => event.emotions[0][15].score),
-  //   fill: true,
-  //   backgroundColor: "rgba(75,192,192,0.2)",
-  //   borderColor: "rgba(75,192,192,1)"
-  // }
-
-  const datasets_old = [
-    {
-      label: "Composite Sentiment",
-      data: eventsList.map(event => event.sentiment),
-      fill: true,
-      backgroundColor: "rgba(75,192,192,0.2)",
-      borderColor: "rgba(75,192,192,1)",
-      visible: true
-    },
-    {
-      label: "Gratitude",
-      data: eventsList.map(event => event.emotions[0][15].score),
-      fill: true,
-      backgroundColor: "rgba(75,192,192,0.2)",
-      borderColor: "rgba(75,192,192,1)"
-    }
-  ];
-
   const eventsData = {
     labels: eventsList.map((event) => event.created_at),
     datasets: datasets,
   };
-
-  // const chartOptions = {
-  //   scales: {
-  //       x: {
-  //         type: 'time',
-  //         time: {
-  //             unit: 'minute'
-  //         }
-  //       }
-  //   }
-  // };
-
-  // const data = {
-  //   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  //   datasets: [
-  //     {
-  //       label: "First dataset",
-  //       data: [33, 53, 85, 41, 44, 65],
-  //       fill: true,
-  //       backgroundColor: "rgba(75,192,192,0.2)",
-  //       borderColor: "rgba(75,192,192,1)"
-  //     },
-  //     {
-  //       label: "Second dataset",
-  //       data: [33, 25, 35, 51, 54, 76],
-  //       fill: false,
-  //       borderColor: "#742774"
-  //     }
-  //   ]
-  // };
 
   return (
     <div className="App">
@@ -264,10 +208,9 @@ function App() {
       <Line data={eventsData}
       // options={chartOptions}
       />
-       <div>
-      {checked_emotions}
+       <div className={styles.emotions_checkboxes}>
       {emotions.map((emotion) => <div>
-          <input type="checkbox"
+          <input type="checkbox" key={emotion}
             checked={checked[emotion]}
             onChange={() => handleCheckboxChange(emotion)}
            >

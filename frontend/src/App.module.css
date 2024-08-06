@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -11,8 +11,8 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
+} */
+/* 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -26,6 +26,14 @@
 
 .App-link {
   color: #61dafb;
+} */
+
+.emotions_checkboxes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* position:fixed; */
+  border:2px solid red;
 }
 
 @keyframes App-logo-spin {
@@ -36,3 +44,4 @@
     transform: rotate(360deg);
   }
 }
+
