@@ -7,7 +7,7 @@ from .models import Entry
 class EntryAdmin(admin.ModelAdmin):
  
     # add the fields of the model here
-    list_display = ("title","description","created_at", "sentiment")
+    list_display = ("title","description","created_at", "sentiment", "emotions")
  
 # we will need to register the
 # model class and the Admin model class

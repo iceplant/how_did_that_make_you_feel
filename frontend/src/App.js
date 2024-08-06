@@ -152,65 +152,102 @@ function App() {
     fetchEvents();
   }, []);
 
+  const emotions = ["admiration", "amusement", "anger", "annoyance", "approval", "caring", "confusion", "curiosity", "desire", "disappointment", "disapproval", "disgust", "embarrassment", "excitement", "fear", "gratitude", "grief", "joy", "love", "nervousness", "optimism", "pride", "realization", "relief", "remorse", "sadness", "surprise"];
+  const default_emotions_dict = {};
+  emotions.map(emotion => default_emotions_dict[emotion] = false);
+  const [checked, setChecked] = React.useState(default_emotions_dict);
+
+  const checked_emotions = emotions.filter(emotion => checked[emotion]);
+  
+  // TODO: get correct data for each emotion
+  const datasets = checked_emotions.map(emotion =>
+      ({
+        label: emotion,
+        data: eventsList.map(event => event.emotions[0][emotions.indexOf(emotion)].score),
+        fill: true,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)",
+      }));
+
+  datasets.push({
+    label: "Composite Sentiment",
+    data: eventsList.map(event => event.sentiment),
+    fill: true,
+    backgroundColor: "rgba(75,192,192,0.2)",
+    borderColor: "rgba(75,192,192,1)",
+    visible: true
+  })
+                                  
+  
+  const handleCheckboxChange = (emotion) => 
+  {
+    setChecked(prevChecked => ({...prevChecked, [emotion]: !prevChecked[emotion]}));
+  }
+
+
+  // {
+  //   label: "Gratitude",
+  //   data: eventsList.map(event => event.emotions[0][15].score),
+  //   fill: true,
+  //   backgroundColor: "rgba(75,192,192,0.2)",
+  //   borderColor: "rgba(75,192,192,1)"
+  // }
+
+  const datasets_old = [
+    {
+      label: "Composite Sentiment",
+      data: eventsList.map(event => event.sentiment),
+      fill: true,
+      backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "rgba(75,192,192,1)",
+      visible: true
+    },
+    {
+      label: "Gratitude",
+      data: eventsList.map(event => event.emotions[0][15].score),
+      fill: true,
+      backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "rgba(75,192,192,1)"
+    }
+  ];
+
   const eventsData = {
     labels: eventsList.map((event) => event.created_at),
-    datasets: [
-      {
-        label: "Composite Sentiment",
-        data: eventsList.map(event => event.sentiment),
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      // {
-      //   label: "Gratitude",
-      //   data: eventsList.map(event => event.emotions[0][15].score),
-      //   fill: true,
-      //   backgroundColor: "rgba(75,192,192,0.2)",
-      //   borderColor: "rgba(75,192,192,1)"
-      // }
-    ]
+    datasets: datasets,
   };
 
-  const chartOptions = {
-    scales: {
-        x: {
-          type: 'time',
-          time: {
-              unit: 'minute'
-          }
-        }
-    }
-  };
+  // const chartOptions = {
+  //   scales: {
+  //       x: {
+  //         type: 'time',
+  //         time: {
+  //             unit: 'minute'
+  //         }
+  //       }
+  //   }
+  // };
 
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
-        fill: false,
-        borderColor: "#742774"
-      }
-    ]
-  };
+  // const data = {
+  //   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  //   datasets: [
+  //     {
+  //       label: "First dataset",
+  //       data: [33, 53, 85, 41, 44, 65],
+  //       fill: true,
+  //       backgroundColor: "rgba(75,192,192,0.2)",
+  //       borderColor: "rgba(75,192,192,1)"
+  //     },
+  //     {
+  //       label: "Second dataset",
+  //       data: [33, 25, 35, 51, 54, 76],
+  //       fill: false,
+  //       borderColor: "#742774"
+  //     }
+  //   ]
+  // };
 
   return (
     <div className="App">
-      <h1>test</h1>
-      {/* {eventsList.map(item => (
-        <div key={item.id}>
-          {item.title}
-        </div>
-      ))} */}
-      {/* <LoginModal /> */}
       <section>
         <form onSubmit={handleSubmit}>
           <label htmlFor="description">Description</label>
@@ -224,9 +261,21 @@ function App() {
           <button type="Submit">Submit</button>
         </form>
       </section>
-      <Line data={eventsData} 
+      <Line data={eventsData}
       // options={chartOptions}
       />
+       <div>
+      {checked_emotions}
+      {emotions.map((emotion) => <div>
+          <input type="checkbox"
+            checked={checked[emotion]}
+            onChange={() => handleCheckboxChange(emotion)}
+           >
+           </input>
+                      <div>{emotion}</div>
+                      {/* <div>{checked[emotion].toString()}</div> */}
+    </div>)}
+    </div>
       <section>
         <ul>
           {eventsList.map((event) => {

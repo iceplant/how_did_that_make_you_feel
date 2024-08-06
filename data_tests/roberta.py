@@ -1,6 +1,6 @@
 import sys
 sys.path.append("..")
-from my_secrets import *
+from backend.my_secrets import *
 
 from pprint import pprint
 

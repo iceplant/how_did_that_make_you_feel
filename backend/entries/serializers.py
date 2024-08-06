@@ -10,4 +10,4 @@ class EntrySerializer(serializers.ModelSerializer):
     # create a meta class
     class Meta:
         model = Entry
-        fields = ('id', 'title', 'description', 'created_at','sentiment') #, 'emotions')
+        fields = ('id', 'title', 'description', 'created_at','sentiment', 'emotions')

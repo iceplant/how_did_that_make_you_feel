@@ -1,5 +1,8 @@
 from django.db import models
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from .roberta import compute_hugging_face_roberta_emotions
+
+
 sid = SentimentIntensityAnalyzer()
 
 # Create your models here.
@@ -9,6 +12,7 @@ class Entry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # modified at?
     sentiment = models.FloatField(default=0)
+    emotions = models.JSONField()
 
     @property
     def sentiment(self):
@@ -18,9 +22,10 @@ class Entry(models.Model):
         print(f"ss is {ss}")
         return ss['compound']
 
-    # @property
-    # def emotions(self):
-       
+    @property
+    def emotions(self):
+      emotions_json = compute_hugging_face_roberta_emotions(self.description)
+      return emotions_json
     
     # def save(self, *args, **kwargs):
     #     # Automatically set the selling_price before saving
