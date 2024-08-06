@@ -8,7 +8,7 @@ class Entry(models.Model):
     description=models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     # modified at?
-    # sentiment = models.FloatField(default=0)
+    sentiment = models.FloatField(default=0)
 
     @property
     def sentiment(self):
@@ -17,6 +17,10 @@ class Entry(models.Model):
         ss = sid.polarity_scores(self.description)
         print(f"ss is {ss}")
         return ss['compound']
+
+    # @property
+    # def emotions(self):
+       
     
     # def save(self, *args, **kwargs):
     #     # Automatically set the selling_price before saving
