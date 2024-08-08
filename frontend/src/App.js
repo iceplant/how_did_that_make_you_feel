@@ -9,64 +9,7 @@ import styles from "./App.module.css"
 
 
 const baseUrl = "http://localhost:8000/api";
-// const Context = React.createContext(null);
 
-// const LoginModal = () => {
-//   // const { store, actions } = useContext(Context);
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const token = sessionStorage.getItem("token");
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const dt = {
-  //       email: "test",
-  //       password: "test",
-  //     };
-  //     const resp = await axios.post(`${baseUrl}/token`, dt);
-  //     console.log("dt: ", dt);
-  //     console.log("resp: ", resp);
-  //     if (resp.status === 200) {
-  //       sessionStorage.setItem("token", resp.data.access_token);
-  //       return resp;
-  //     } else alert("There was an error");
-  //   } catch {
-  //     console.log("login error");
-  //   }
-  // };
-
-  // const handleLogout = () => {
-  //   sessionStorage.setItem("token", "");
-  // };
-
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//       <div>
-//         {token && token !== "" && token !== "undefined" ? (
-//           <div>You are logged in</div>
-//         ) : (
-//           <div>
-//             <input
-//               type="text"
-//               placeholder="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//             <input
-//               type="password"
-//               placeholder="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//             <button onClick={handleLogin}>Login</button>
-//           </div>
-//         )}
-//       </div>
-//       <button onClick={handleLogout}>Logout</button>
-//     </div>
-//   );
-// };
 
 function App() {
   const [description, setDescription] = useState("");
@@ -155,7 +98,7 @@ function App() {
 
   const emotions = ["admiration", "amusement", "anger", "annoyance", "approval", "caring", "confusion", "curiosity", "desire", "disappointment", "disapproval", "disgust", "embarrassment", "excitement", "fear", "gratitude", "grief", "joy", "love", "nervousness", "optimism", "pride", "realization", "relief", "remorse", "sadness", "surprise"];
   const default_emotions_dict = {};
-  emotions.map(emotion => default_emotions_dict[emotion] = false);
+  emotions.map(emotion => default_emotions_dict[emotion] = true);
   const [checked, setChecked] = React.useState(default_emotions_dict);
 
   const checked_emotions = emotions.filter(emotion => checked[emotion]);
@@ -174,8 +117,26 @@ function App() {
     label: "Composite Sentiment",
     data: eventsList.map(event => event.sentiment),
     fill: true,
-    backgroundColor: "rgba(75,192,192,0.2)",
-    borderColor: "rgba(75,192,192,1)",
+    backgroundColor: "rgba(200,192,192,0.2)",
+    borderColor: "rgba(200,192,192,1)",
+    visible: true
+  })
+
+  datasets.push({
+    label: "TextBlob Polarity",
+    data: eventsList.map(event => event.blob_sentiment[0]),
+    fill: true,
+    backgroundColor: "rgba(19, 157, 180, 0.8)",
+    borderColor: "rgba(19, 157, 180, 0.8)",
+    visible: true
+  })
+
+  datasets.push({
+    label: "TextBlob Subjectivity",
+    data: eventsList.map(event => event.blob_sentiment[1]),
+    fill: true,
+    backgroundColor: "rgba(245, 40, 145, 0.8)",
+    borderColor: "rgba(245, 40, 145, 0.8)",
     visible: true
   })
                                   

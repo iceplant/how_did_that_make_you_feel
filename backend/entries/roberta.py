@@ -18,14 +18,18 @@ login(token=HUGGING_FACE_ROBERTA_TOKEN)
 tokenizer = RobertaTokenizerFast.from_pretrained("arpanghoshal/EmoRoBERTa")
 model = TFRobertaForSequenceClassification.from_pretrained("arpanghoshal/EmoRoBERTa")
 
+emotion = pipeline('sentiment-analysis', 
+                        model='arpanghoshal/EmoRoBERTa', return_all_scores=True)
+
+
 def compute_hugging_face_roberta_emotions(text):
-  emotion = pipeline('sentiment-analysis', 
-                      model='arpanghoshal/EmoRoBERTa', return_all_scores=True)
-
-
-  emotion_labels = emotion(text)
-  # pprint(emotion_labels)
-  return emotion_labels
+  print("\n\n\nrunning roberta function with: ", text, "\n\n\n")
+  if len(text) < 512:
+    emotion_labels = emotion(text)
+    # pprint(emotion_labels)
+    return emotion_labels
+  else:
+    return None
 
 # pipe = pipeline("fill-mask", model="mental/mental-roberta-base")
 

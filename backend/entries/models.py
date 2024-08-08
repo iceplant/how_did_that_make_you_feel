@@ -1,6 +1,7 @@
 from django.db import models
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from .roberta import compute_hugging_face_roberta_emotions
+from textblob import TextBlob
 
 
 sid = SentimentIntensityAnalyzer()
@@ -13,13 +14,14 @@ class Entry(models.Model):
     # modified at?
     sentiment = models.FloatField(default=0)
     emotions = models.JSONField()
+    blob_sentiment = models.JSONField()
 
     @property
     def sentiment(self):
-        print("reached sentiment calculation")
-        print("description: ", self.description)
+        # print("reached sentiment calculation")
+        # print("description: ", self.description)
         ss = sid.polarity_scores(self.description)
-        print(f"ss is {ss}")
+        # print(f"ss is {ss}")
         return ss['compound']
 
     @property
@@ -27,9 +29,10 @@ class Entry(models.Model):
       emotions_json = compute_hugging_face_roberta_emotions(self.description)
       return emotions_json
     
-    # def save(self, *args, **kwargs):
-    #     # Automatically set the selling_price before saving
-    #     super().save(*args, **kwargs)
+    @property
+    def blob_sentiment(self):
+      #  return {"polarity" : "Your mom", "subjectivity" : "your dad"}
+      return TextBlob(self.description).sentiment
 
 
     def __str__(self):
