@@ -103,6 +103,8 @@ function App() {
 
   const checked_emotions = emotions.filter(emotion => checked[emotion]);
   
+  const rbgaClear = "rgba(0,0,0,0)"
+
   // TODO: get correct data for each emotion
   const datasets = checked_emotions.map(emotion =>
       ({
@@ -117,7 +119,7 @@ function App() {
     label: "Composite Sentiment",
     data: eventsList.map(event => event.sentiment),
     fill: true,
-    backgroundColor: "rgba(200,192,192,0.2)",
+    backgroundColor: rbgaClear,
     borderColor: "rgba(200,192,192,1)",
     visible: true
   })
@@ -126,7 +128,7 @@ function App() {
     label: "TextBlob Polarity",
     data: eventsList.map(event => event.blob_sentiment[0]),
     fill: true,
-    backgroundColor: "rgba(19, 157, 180, 0.8)",
+    backgroundColor: rbgaClear,
     borderColor: "rgba(19, 157, 180, 0.8)",
     visible: true
   })
@@ -135,7 +137,7 @@ function App() {
     label: "TextBlob Subjectivity",
     data: eventsList.map(event => event.blob_sentiment[1]),
     fill: true,
-    backgroundColor: "rgba(245, 40, 145, 0.8)",
+    backgroundColor: rbgaClear,
     borderColor: "rgba(245, 40, 145, 0.8)",
     visible: true
   })
@@ -151,12 +153,53 @@ function App() {
     datasets: datasets,
   };
 
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Analysis'
+      }
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+            unit: 'hour', // Change to 'minute', 'hour', etc. as needed
+            tooltipFormat: 'll HH:mm', // Format for tooltip display
+            displayFormats: {
+                day: 'MMM D', // Format for day-level labels
+                hour: 'MMM D, HH:mm' // Format for hour-level labels
+            }
+        },
+        title: {
+            display: true,
+            text: 'Date and Time'
+        },
+        ticks: {
+            // Customize tick labels if needed
+            callback: function(value) {
+                const date = new Date(value);
+                return date.toLocaleString(); // Custom format using toLocaleString() if needed
+            }
+        }
+    },
+      y: {
+        display: true,
+        // beginAtZero: true,
+        // type: 'logarithmic',
+      }
+    }
+  };
+
   return (
     <div className="App">
+      <h2>How are you doing today? What happened? How did that make you feel?</h2>
       <section>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="description">Description</label>
-          <input
+          <label htmlFor="description"></label>
+          <textarea
+            className={styles.text_box}
             onChange={(e) => handleChange(e, "description")}
             type="text"
             name="description"
@@ -167,7 +210,7 @@ function App() {
         </form>
       </section>
       <Line data={eventsData}
-      // options={chartOptions}
+      options={chartOptions}
       />
        <div className={styles.emotions_checkboxes}>
       {emotions.map((emotion) => <div>

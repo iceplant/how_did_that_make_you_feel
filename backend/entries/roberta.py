@@ -29,7 +29,8 @@ def compute_hugging_face_roberta_emotions(text):
     # pprint(emotion_labels)
     return emotion_labels
   else:
-    return None
+    emotion_labels = emotion(text[:500])
+    return emotion_labels
 
 # pipe = pipeline("fill-mask", model="mental/mental-roberta-base")
 
