@@ -1,9 +1,13 @@
 // import Analysis from "./Analysis";
+import Analysis from "./Analysis";
 import UserAuth from "./UserAuth";
 
 const App = () => {
   return (
-    <UserAuth />
+    <div>
+      <UserAuth />
+      {/* <Analysis /> */}
+    </div>
   )
 }
 

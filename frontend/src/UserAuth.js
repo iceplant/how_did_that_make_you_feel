@@ -86,6 +86,7 @@ const UserAuth = () => {
         password: password
       }
     ).then(function(res) {
+      console.log(res);
       setCurrentUser(true);
       setEmail(email);
       setUsername(username);
@@ -99,8 +100,8 @@ const UserAuth = () => {
       {withCredentials: true}
     ).then(function(res) {
       setCurrentUser(false);
-      setEmail(null);
-      setUsername(null);
+      setEmail("");
+      setUsername("");
     });
   }
 
