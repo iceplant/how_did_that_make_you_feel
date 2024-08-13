@@ -27,16 +27,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user_obj.save()
         return user_obj
 class UserLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
-
-    def check_user(self, clean_data):
-        user = authenticate(username=clean_data['email'], password=clean_data['password'])
-        if not user:
-            raise ValidationErr('user not found')
-        return user
+	email = serializers.EmailField()
+	password = serializers.CharField()
+	##
+	def check_user(self, clean_data):
+		user = authenticate(username=clean_data['email'], password=clean_data['password'])
+		if not user:
+			raise ValidationError('user not found')
+		return user
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model: UserModel
-        fields = ('email', 'username')
+	class Meta:
+		model = UserModel
+		fields = ('email', 'username')

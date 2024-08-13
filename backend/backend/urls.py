@@ -24,10 +24,10 @@ router.register(r'entries',views.EntryView, 'entry')
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-   path('register', views.UserRegister.as_view(), name='register'),
-	path('login', views.UserLogin.as_view(), name='login'),
-	path('logout', views.UserLogout.as_view(), name='logout'),
-	path('user', views.UserView.as_view(), name='user'),
+  path('admin/', admin.site.urls),
+  path('api/', include(router.urls)),
+  path('register/', views.UserRegister.as_view(), name='register'),
+	path('login/', views.UserLogin.as_view(), name='login'),
+	path('logout/', views.UserLogout.as_view(), name='logout'),
+	path('user/', views.UserView.as_view(), name='user'),
 ]
