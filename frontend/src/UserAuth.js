@@ -34,6 +34,9 @@ const UserAuth = () => {
     client.get("/user/")
     .then(function(res) {
       setCurrentUser(true);
+      setEmail(res.data.user.email);
+      setUsername(res.data.user.username);
+      // console.log(res);
     })
     .catch(function(error) {
       setCurrentUser(false);
@@ -68,6 +71,8 @@ const UserAuth = () => {
         }
       ).then(function(res) {
         setCurrentUser(true);
+        setEmail(email);
+        setUsername(username);
       });
     });
   }
@@ -82,6 +87,8 @@ const UserAuth = () => {
       }
     ).then(function(res) {
       setCurrentUser(true);
+      setEmail(email);
+      setUsername(username);
     });
   }
 
@@ -92,6 +99,8 @@ const UserAuth = () => {
       {withCredentials: true}
     ).then(function(res) {
       setCurrentUser(false);
+      setEmail(null);
+      setUsername(null);
     });
   }
 
@@ -113,6 +122,8 @@ const UserAuth = () => {
         </Navbar>
           <div className="center">
             <h2>You're logged in!</h2>
+            <h3>email: {email} </h3>
+            <h3>username: {username} </h3>
           </div>
         </div>
     );
