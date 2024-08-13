@@ -34,6 +34,13 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
 
+CORS_ALLOWED_ORIGINS = [
+  'https://localhost:3000',
+  'https://127.0.0.1:3000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,6 +95,16 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'user_api.AppUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
