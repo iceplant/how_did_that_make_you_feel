@@ -9,8 +9,11 @@ import styles from "./App.module.css"
 import UserAuth from './UserAuth';
 
 
-const baseUrl = "http://localhost:8000/api";
+const baseUrl = "http://127.0.0.1:8000/api";
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.withCredentials = true;
 
 function Analysis() {
   const [description, setDescription] = useState("");
@@ -18,11 +21,17 @@ function Analysis() {
   const [eventsList, setEventsList] = useState([]);
   const [eventIdBeingEdited, setEventIdBeingEdited] = useState(null); // id of event currently being edited
 
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
 
   const fetchEvents = async () => {
     // console.log("fetching events");
-    const resp = await axios.get(`${baseUrl}/entries/`);
+    const resp = await axios.get(`${baseUrl}/entries/`, {
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    }
+    );
     // console.log("data: ", resp.data, typeof(resp.data));
     const events = resp.data;
     console.log("events: ", events, typeof(events));
@@ -61,7 +70,11 @@ function Analysis() {
     try {
       const url = `${baseUrl}/entries/${eventIdBeingEdited}/`;
       console.log(url);
-      const data = await axios.put(url, { description: editDescription });
+      const data = await axios.put(url, {
+          headers: {
+            'X-CSRFToken': csrfToken
+          },
+        description: editDescription });
       // console.log(editDescription);
       const updatedEvent = data.data.event;
       const updatedlist = eventsList.map((event) => {
@@ -87,7 +100,13 @@ function Analysis() {
     e.preventDefault(); //prevents page from refreshing
     try {
       console.log(`${baseUrl}/entries/`, { description });
-      const data = await axios.post(`${baseUrl}/entries/`, { "description" : description });
+      const data = await axios.post(`${baseUrl}/entries/`, 
+        {
+          headers: {
+            'X-CSRFToken': csrfToken
+          },
+          "description" : description 
+        });
       setEventsList([...eventsList, data.data]);
       setDescription("");
     } catch (err) {
@@ -255,8 +274,5 @@ function Analysis() {
         </section></>
   )
 }
-
- 
-
 
 export default Analysis;

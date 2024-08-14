@@ -65,6 +65,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
+CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'  # Or 'Strict' or 'None', depending on your needs
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
