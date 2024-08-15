@@ -51,7 +51,7 @@ SESSION_COOKIE_AGE = 3600
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFToken',
 ]
-CSRF_COOKIE_NAME = "csrfToken"
+CSRF_COOKIE_NAME = "csrftoken"
 
 CSRF_COOKIE_HTTPONLY = False
 

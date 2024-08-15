@@ -15,6 +15,8 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
+console.log("reached analysis")
+
 function Analysis() {
   const [description, setDescription] = useState("");
   const [editDescription, setEditDescription] = useState("");

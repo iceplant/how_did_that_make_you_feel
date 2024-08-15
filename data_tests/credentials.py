@@ -1,0 +1,2 @@
+HUGGING_FACE_ROBERTA_TOKEN = "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"
+MENTAL_ROBERTA = "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"

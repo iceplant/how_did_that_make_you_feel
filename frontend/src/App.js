@@ -5,8 +5,10 @@ import UserAuth from "./UserAuth";
 const App = () => {
   return (
     <div>
-      <UserAuth />
-      <Analysis />
+      {/* <UserAuth />
+       */}
+      <div>hello world</div>
+      {/* <Analysis /> */}
     </div>
   )
 }
