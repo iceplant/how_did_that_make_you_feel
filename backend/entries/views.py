@@ -18,6 +18,9 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 
+# from django.views.decorators.csrf import csrf_exempt
+
+
 from .validations import custom_validation, validate_email, validate_password
 
 # create a class for the Todo model viewsets

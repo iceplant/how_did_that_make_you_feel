@@ -23,6 +23,18 @@ function Analysis() {
 
   const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
+// const getCookie = (name) => {
+//     const cookieValue = document.cookie
+//         .split('; ')
+//         .find(row => row.startsWith(name + '='))
+//         ?.split('=')[1];
+//     return cookieValue;
+// };
+// const csrfToken = getCookie('csrftoken');
+
+console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
+
+  // const csrfToken = "RFH6HfFcmQc8HqifyH9rT8QwwNFdS6XzoNLa5asPgoFNwKmcOuo5Vy6Q9y3gwGNA";
 
   const fetchEvents = async () => {
     // console.log("fetching events");
@@ -31,13 +43,19 @@ function Analysis() {
         'X-CSRFToken': csrfToken
       }
     }
-    );
+    ).then(resp => {
+      const events = resp.data;
+      // console.log("events: ", events, typeof(events));
+      setEventsList(events);
+    }).catch(err => {
+      console.log(err.response.data.error)
+    });
     // console.log("data: ", resp.data, typeof(resp.data));
-    const events = resp.data;
-    console.log("events: ", events, typeof(events));
+    // const events = resp.data;
+    // console.log("events: ", events, typeof(events));
     // console.log("emotions: ", events[9]?.emotions[0][15]);
     // console.log("emotions map: ", events?.map(event => event?.emotions[0][15].score));
-    setEventsList(events);
+    // setEventsList(events);
   };
 
   const handleChange = (e, field) => {
@@ -50,13 +68,13 @@ function Analysis() {
 
   const handleDelete = async (event) => {
     const id = event.id;
-    try {
-      await axios.delete(`${baseUrl}/entries/${id}/`);
+    await axios.delete(`${baseUrl}/entries/${id}/`).then(() => {
+
       const updatedList = eventsList.filter((event) => event.id !== id);
       setEventsList(updatedList);
-    } catch (err) {
+    }).catch((err) => {
       console.error(err.message);
-    }
+    });
   };
 
   const handleEdit = (event) => {
@@ -74,7 +92,7 @@ function Analysis() {
           headers: {
             'X-CSRFToken': csrfToken
           },
-        description: editDescription });
+          description: editDescription });
       // console.log(editDescription);
       const updatedEvent = data.data.event;
       const updatedlist = eventsList.map((event) => {
@@ -99,18 +117,20 @@ function Analysis() {
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevents page from refreshing
     try {
+      console.log("DOING SUBMIT!");
       console.log(`${baseUrl}/entries/`, { description });
       const data = await axios.post(`${baseUrl}/entries/`, 
         {
           headers: {
             'X-CSRFToken': csrfToken
           },
+          credentials: 'include',
           "description" : description 
         });
       setEventsList([...eventsList, data.data]);
       setDescription("");
     } catch (err) {
-      console.error(err.message);
+      console.error("Submit failed with error message: ", err.message);
     }
   };
 

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,9 +45,15 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-SESSION_COOKIE_AGE = 3600  
+SESSION_COOKIE_AGE = 3600
 
 
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-CSRFToken',
+]
+CSRF_COOKIE_NAME = "csrfToken"
+
+CSRF_COOKIE_HTTPONLY = False
 
 SESSION_COOKIE_SAMESITE = 'None'  # If you're serving from different origins
 SESSION_COOKIE_SECURE = True  # If using HTTPS
@@ -67,7 +75,7 @@ INSTALLED_APPS = [
 
 CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = 'Lax'  # Or 'Strict' or 'None', depending on your needs
+CSRF_COOKIE_SAMESITE = None  # Or 'Strict' or 'None', depending on your needs
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
