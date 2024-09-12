@@ -11,12 +11,14 @@ from .models import Entry
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response 
+
 
 # from django.views.decorators.csrf import csrf_exempt
 
@@ -24,6 +26,7 @@ from rest_framework.response import Response
 from .validations import custom_validation, validate_email, validate_password
 
 # create a class for the Todo model viewsets
+# @csrf_exempt
 class EntryView(viewsets.ModelViewSet):
  
     # create a serializer class and 

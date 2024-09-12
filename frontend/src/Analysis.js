@@ -11,11 +11,9 @@ import UserAuth from './UserAuth';
 
 const baseUrl = "http://127.0.0.1:8000/api";
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
-
-console.log("reached analysis")
+// axios.defaults.xsrfCookieName = 'csrftoken';
+// axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+// axios.defaults.withCredentials = true;
 
 function Analysis() {
   const [description, setDescription] = useState("");
@@ -23,16 +21,16 @@ function Analysis() {
   const [eventsList, setEventsList] = useState([]);
   const [eventIdBeingEdited, setEventIdBeingEdited] = useState(null); // id of event currently being edited
 
-  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+  // const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
-// const getCookie = (name) => {
-//     const cookieValue = document.cookie
-//         .split('; ')
-//         .find(row => row.startsWith(name + '='))
-//         ?.split('=')[1];
-//     return cookieValue;
-// };
-// const csrfToken = getCookie('csrftoken');
+const getCookie = (name) => {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(name + '='))
+        ?.split('=')[1];
+    return cookieValue;
+};
+const csrfToken = getCookie('csrftoken');
 
 console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
 

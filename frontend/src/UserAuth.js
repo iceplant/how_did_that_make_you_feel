@@ -11,16 +11,16 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 axios.defaults.withCredentials = true;
 
-const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+// const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
-// const getCookie = (name) => {
-//   const cookieValue = document.cookie
-//       .split('; ')
-//       .find(row => row.startsWith(name + '='))
-//       ?.split('=')[1];
-//   return cookieValue;
-// };
-// const csrfToken = getCookie('csrftoken');
+const getCookie = (name) => {
+  const cookieValue = document.cookie
+      .split('; ')
+      .find(row => row.startsWith(name + '='))
+      ?.split('=')[1];
+  return cookieValue;
+};
+const csrfToken = getCookie('csrftoken');
 
 const baseURL = "http://127.0.0.1:8000/";
 
