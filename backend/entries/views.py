@@ -27,6 +27,7 @@ from .validations import custom_validation, validate_email, validate_password
 
 # create a class for the Todo model viewsets
 # @csrf_exempt
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class EntryView(viewsets.ModelViewSet):
  
     # create a serializer class and 
@@ -37,6 +38,7 @@ class EntryView(viewsets.ModelViewSet):
     # with the Todo list objects
     queryset = Entry.objects.all()
 
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
@@ -48,7 +50,7 @@ class UserRegister(APIView):
 				return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
    
-
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserLogin(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (SessionAuthentication,)
@@ -62,13 +64,16 @@ class UserLogin(APIView):
             user = serializer.check_user(data)
             login(request, user)
             return Response(serializer.data, status=status.HTTP_200_OK)
-
+        
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserLogout(APIView):
 	permission_classes = (permissions.AllowAny,)
 	authentication_classes = ()
 	def post(self, request):
 		logout(request)
 		return Response(status=status.HTTP_200_OK)
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (SessionAuthentication,)

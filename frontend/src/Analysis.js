@@ -24,6 +24,7 @@ function Analysis() {
   // const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
 const getCookie = (name) => {
+    console.log("\n\n\nDocument cookie: \n\n\n", document.cookie);
     const cookieValue = document.cookie
         .split('; ')
         .find(row => row.startsWith(name + '='))
@@ -40,6 +41,7 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
     // console.log("fetching events");
     const resp = await axios.get(`${baseUrl}/entries/`, {
       headers: {
+        'Content-Type': 'application/json',
         'X-CSRFToken': csrfToken
       }
     }

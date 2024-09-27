@@ -34,10 +34,12 @@ ALLOWED_HOSTS = []
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://localhost:8000',
 )
 
 CORS_ALLOWED_ORIGINS = [
   'https://localhost:3000',
+  'https://localhost:8000',
   'https://127.0.0.1:3000',
   'https://127.0.0.1:8000',
 ]
@@ -48,16 +50,23 @@ CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_AGE = 3600
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFToken',
 ]
 CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_DOMAIN = 'localhost' 
+CSRF_COOKIE_PATH = '/'            # This should be '/' to allow access across the whole site
+
 
 CSRF_COOKIE_HTTPONLY = False
 
-SESSION_COOKIE_SAMESITE = 'None'  # If you're serving from different origins
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_SAMESITE = 'Lax'  # If you're serving from different origins
 SESSION_COOKIE_SECURE = True  # If using HTTPS
+SESSION_COOKIE_DOMAIN = 'localhost'
+SESSION_COOKIE_PATH = '/'
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -76,7 +85,13 @@ INSTALLED_APPS = [
 
 CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = None  # Or 'Strict' or 'None', depending on your needs
+CSRF_COOKIE_SAMESITE = 'Lax'  # Or 'Strict' or 'None', depending on your needs
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # Frontend URL (adjust port as needed)
+    'http://127.0.0.1:3000',  # Frontend URL (adjust port as needed)
+]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
