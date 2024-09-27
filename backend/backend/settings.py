@@ -34,19 +34,26 @@ ALLOWED_HOSTS = []
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
 )
 
+CORS_ORIGIN_ALLOW_ALL = True  # Set to True for local testing
+
+
 CORS_ALLOWED_ORIGINS = [
-  'https://localhost:3000',
-  'https://127.0.0.1:3000',
-  'https://127.0.0.1:8000',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:8000',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-SESSION_COOKIE_AGE = 3600
+SESSION_COOKIE_AGE = 1209600  
+
+SESSION_COOKIE_DOMAIN = '127.0.0.1'
 
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -56,8 +63,8 @@ CSRF_COOKIE_NAME = "csrftoken"
 
 CSRF_COOKIE_HTTPONLY = False
 
-SESSION_COOKIE_SAMESITE = 'None'  # If you're serving from different origins
-SESSION_COOKIE_SECURE = True  # If using HTTPS
+# SESSION_COOKIE_SAMESITE = 'None'  # If you're serving from different origins
+SESSION_COOKIE_SECURE = False  # If using HTTPS
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -76,13 +83,15 @@ INSTALLED_APPS = [
 
 CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = None  # Or 'Strict' or 'None', depending on your needs
+SESSION_COOKIE_HTTPONLY = False  # So the session cookie can be accessed by JavaScript
+SESSION_COOKIE_SAMESITE = 'None'  # Or 'None' for cross-origin requests
+CSRF_COOKIE_SAMESITE = 'None'
 
 MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

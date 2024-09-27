@@ -24,10 +24,13 @@ function Analysis() {
   // const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
 const getCookie = (name) => {
-    const cookieValue = document.cookie
+    const cookieValueRaw = document.cookie;
+    console.log("raw cookies are: ", cookieValueRaw);
+    const cookieValue = cookieValueRaw
         .split('; ')
         .find(row => row.startsWith(name + '='))
         ?.split('=')[1];
+    console.log("cookie ", name, " is ", cookieValue);
     return cookieValue;
 };
 const csrfToken = getCookie('csrftoken');
@@ -38,6 +41,7 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
 
   const fetchEvents = async () => {
     // console.log("fetching events");
+    const csrfToken = getCookie('csrftoken');
     const resp = await axios.get(`${baseUrl}/entries/`, {
       headers: {
         'X-CSRFToken': csrfToken
@@ -88,6 +92,7 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
     try {
       const url = `${baseUrl}/entries/${eventIdBeingEdited}/`;
       console.log(url);
+      const csrfToken = getCookie('csrftoken');
       const data = await axios.put(url, {
           headers: {
             'X-CSRFToken': csrfToken
@@ -119,13 +124,19 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
     try {
       console.log("DOING SUBMIT!");
       console.log(`${baseUrl}/entries/`, { description });
+      const csrfToken = getCookie('csrftoken');
+      console.log("Doing POST, csrftoken is ", csrfToken);
       const data = await axios.post(`${baseUrl}/entries/`, 
         {
+          "description": description,  // Data payload
+        },  
+        {
+          withCredentials: true,  
           headers: {
+            'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken
           },
-          credentials: 'include',
-          "description" : description 
+          // credentials: 'include',
         });
       setEventsList([...eventsList, data.data]);
       setDescription("");
