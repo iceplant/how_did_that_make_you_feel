@@ -18,3 +18,9 @@ don't make things red and green
 check csrf stuff in settings.py         'rest_framework.authentication.BasicAuthentication', vs session auth in REST_FRAMEWORK
 
 remove CORS allow all origins before going to prod!!!
+
+CSRF issue: 
+1. check whether you're using localhost or 127.0.0.1 for everything
+2. check whether you're using HTTP or HTTPS for everything
+3. check that the cookies are getting fetching from the cache on each new request. There doesn't seem to be a way to watch for cookie changes, so you just need to fetch them each time. 
+4. try in firefox? idk if that actually helped
