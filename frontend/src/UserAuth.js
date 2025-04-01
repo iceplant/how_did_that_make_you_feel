@@ -41,6 +41,7 @@ const UserAuth = () => {
   useEffect(() => {
     client.get("/user/")
     .then(function(res) {
+      // console.log("user response: ", res);
       setCurrentUser(true);
       setEmail(res.data.user.email);
       setUsername(res.data.user.username);

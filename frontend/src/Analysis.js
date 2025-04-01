@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, memo } from "react";
 import { format } from "date-fns";
 // import "./App.css";
 import { Line } from "react-chartjs-2";
@@ -15,7 +15,7 @@ const baseUrl = "http://127.0.0.1:8000/api";
 // axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 // axios.defaults.withCredentials = true;
 
-function Analysis() {
+const Analysis = memo(() => {
   const [description, setDescription] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [eventsList, setEventsList] = useState([]);
@@ -304,6 +304,6 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
           </ul>
         </section></>
   )
-}
+})
 
 export default Analysis;

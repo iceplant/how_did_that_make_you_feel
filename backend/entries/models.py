@@ -17,7 +17,8 @@ class Entry(models.Model):
     sentiment = models.FloatField(default=0)
     emotions = models.JSONField()
     blob_sentiment = models.JSONField()
-
+    user = models.ForeignKey('AppUser', on_delete=models.CASCADE, related_name='entries')  # Add this line
+		
     @property
     def sentiment(self):
         # print("reached sentiment calculation")

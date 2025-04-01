@@ -38,16 +38,19 @@ class EntryView(viewsets.ModelViewSet):
     queryset = Entry.objects.all()
 
 class UserRegister(APIView):
-	permission_classes = (permissions.AllowAny,)
-	def post(self, request):
-		clean_data = custom_validation(request.data)
-		serializer = UserRegisterSerializer(data=clean_data)
-		if serializer.is_valid(raise_exception=True):
-			user = serializer.create(clean_data)
-			if user:
-				return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(status=status.HTTP_400_BAD_REQUEST)
-   
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        try:
+            clean_data = custom_validation(request.data)
+            serializer = UserRegisterSerializer(data=clean_data)
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.create(clean_data)
+                if user:
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"Error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UserLogin(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -60,6 +63,12 @@ class UserLogin(APIView):
         serializer = UserLoginSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.check_user(data)
+            if user is None:  # Handle invalid credentials
+                print("User is none!!!")
+                return Response(
+                    {"error": "Invalid email or password"},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
             login(request, user)
             return Response(serializer.data, status=status.HTTP_200_OK)
 

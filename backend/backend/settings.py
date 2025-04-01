@@ -64,7 +64,7 @@ CSRF_COOKIE_NAME = "csrftoken"
 CSRF_COOKIE_HTTPONLY = False
 
 # SESSION_COOKIE_SAMESITE = 'None'  # If you're serving from different origins
-SESSION_COOKIE_SECURE = False  # If using HTTPS
+SESSION_COOKIE_SECURE = True  # If using HTTPS
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -81,7 +81,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
+CSRF_COOKIE_SECURE = True  # Set to True if using HTTPS
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = False  # So the session cookie can be accessed by JavaScript
 SESSION_COOKIE_SAMESITE = 'None'  # Or 'None' for cross-origin requests
