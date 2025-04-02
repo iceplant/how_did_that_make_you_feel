@@ -133,32 +133,32 @@ const UserAuth = ({
   //   });
   // }
 
-  if (currentUser) {
-    return (
-      <div className="center vertical-align">
-        <Navbar bg="dark" variant="dark">
-          <Container>
-            {/* <Navbar.Brand></Navbar.Brand> */}
-            {/* <Navbar.Toggle /> */}
-            <Navbar.Collapse className="justify-content-end">
-              <div className="navbar-content">
-                <div className="logged-in-info">
-                  <h2>You're logged in!</h2>
-                  <h3>email: {email}</h3>
-                  <h3>username: {username}</h3>
-                </div>
-                {/* <form onSubmit={(e) => submitLogout(e)}>
-                  <Button type="submit" variant="light">
-                    Log out
-                  </Button>
-                </form> */}
-              </div>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </div>
-    );
-  }
+  // if (currentUser) {
+  //   return (
+  //     <div className="center vertical-align">
+  //       <Navbar bg="dark" variant="dark">
+  //         <Container>
+  //           {/* <Navbar.Brand></Navbar.Brand> */}
+  //           {/* <Navbar.Toggle /> */}
+  //           <Navbar.Collapse className="justify-content-end">
+  //             <div className="navbar-content">
+  //               <div className="logged-in-info">
+  //                 <h2>You're logged in!</h2>
+  //                 <h3>email: {email}</h3>
+  //                 <h3>username: {username}</h3>
+  //               </div>
+  //               {/* <form onSubmit={(e) => submitLogout(e)}>
+  //                 <Button type="submit" variant="light">
+  //                   Log out
+  //                 </Button>
+  //               </form> */}
+  //             </div>
+  //           </Navbar.Collapse>
+  //         </Container>
+  //       </Navbar>
+  //     </div>
+  //   );
+  // }
   return (
     <div>
       {registrationToggle ? (

@@ -82,8 +82,10 @@ const App = () => {
         {getButtonLabel()}
       </button>
       {isLoggedIn ? (
-        // Show the main app if the user is logged in
-        <Analysis />
+        <>
+          <Analysis />
+          <div className="user-bubble">{"Currently Logged In as: " + username + "\n" + email}</div>
+        </>
       ) : (
         // Show the authentication forms if the user is not logged in
         <UserAuth
