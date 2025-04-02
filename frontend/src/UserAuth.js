@@ -31,14 +31,24 @@ const client = axios.create({
   }
 })
 
-const UserAuth = () => {
+const fetchCsrfToken = async () => {
+  try {
+    await axios.get(`${baseURL}api/csrf/`);
+    console.log("CSRF token set successfully");
+  } catch (error) {
+    console.error("Error setting CSRF token:", error.response?.data || error.message);
+  }
+};
+
+const UserAuth = ({ registrationToggle, setRegistrationToggle, setIsLoggedIn }) => {
   const [currentUser, setCurrentUser] = useState();
-  const [registrationToggle, setRegistrationToggle] = useState(false);
+  // const [registrationToggle, setRegistrationToggle] = useState(false);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    fetchCsrfToken();
     client.get("/user/")
     .then(function(res) {
       // console.log("user response: ", res);
@@ -82,6 +92,7 @@ const UserAuth = () => {
         setCurrentUser(true);
         setEmail(email);
         setUsername(username);
+        setIsLoggedIn(true);
       });
     });
   }
@@ -99,6 +110,7 @@ const UserAuth = () => {
       setCurrentUser(true);
       setEmail(email);
       setUsername(username);
+      setIsLoggedIn(true);
     });
   }
 
@@ -116,41 +128,30 @@ const UserAuth = () => {
 
   if (currentUser) {
     return (
-      <div>
+      <div className="center vertical-align">
         <Navbar bg="dark" variant="dark">
           <Container>
-            <Navbar.Brand>Authentication App</Navbar.Brand>
-            <Navbar.Toggle />
+            {/* <Navbar.Brand></Navbar.Brand> */}
+            {/* <Navbar.Toggle /> */}
             <Navbar.Collapse className="justify-content-end">
-              <Navbar.Text>
-                <form onSubmit={e => submitLogout(e)}>
+              <div className="navbar-content">
+                <div className="logged-in-info">
+                  <h2>You're logged in!</h2>
+                  <h3>email: {email}</h3>
+                  <h3>username: {username}</h3>
+                </div>
+                <form onSubmit={(e) => submitLogout(e)}>
                   <Button type="submit" variant="light">Log out</Button>
                 </form>
-              </Navbar.Text>
+              </div>
             </Navbar.Collapse>
           </Container>
         </Navbar>
-          <div className="center">
-            <h2>You're logged in!</h2>
-            <h3>email: {email} </h3>
-            <h3>username: {username} </h3>
-          </div>
         </div>
     );
   }
   return (
     <div>
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand>Authentication App</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            <Button id="form_btn" onClick={update_form_btn} variant="light">Register</Button>
-          </Navbar.Text>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
     {
       registrationToggle ? (
         <div className="center">
@@ -159,7 +160,6 @@ const UserAuth = () => {
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
               <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicUsername">
@@ -182,7 +182,6 @@ const UserAuth = () => {
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
               <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -196,6 +195,17 @@ const UserAuth = () => {
         </div>
       )
     }
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        {/* <Navbar.Brand>Authentication App</Navbar.Brand> */}
+        {/* <Navbar.Toggle /> */}
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            <Button id="form_btn" onClick={update_form_btn} variant="light">Register</Button>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
     </div>
   );
 }

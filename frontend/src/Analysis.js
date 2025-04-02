@@ -25,17 +25,17 @@ const Analysis = memo(() => {
 
 const getCookie = (name) => {
     const cookieValueRaw = document.cookie;
-    console.log("raw cookies are: ", cookieValueRaw);
+    // console.log("raw cookies are: ", cookieValueRaw);
     const cookieValue = cookieValueRaw
         .split('; ')
         .find(row => row.startsWith(name + '='))
         ?.split('=')[1];
-    console.log("cookie ", name, " is ", cookieValue);
+    // console.log("cookie ", name, " is ", cookieValue);
     return cookieValue;
 };
 const csrfToken = getCookie('csrftoken');
 
-console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
+// console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
 
   // const csrfToken = "RFH6HfFcmQc8HqifyH9rT8QwwNFdS6XzoNLa5asPgoFNwKmcOuo5Vy6Q9y3gwGNA";
 
@@ -72,45 +72,52 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
 
   const handleDelete = async (event) => {
     const id = event.id;
-    await axios.delete(`${baseUrl}/entries/${id}/`).then(() => {
-
+    try {
+      const csrfToken = getCookie('csrftoken');
+      await axios.delete(`${baseUrl}/entries/${id}/`, {
+        withCredentials: true,
+        headers: {
+          'X-CSRFToken': csrfToken,
+        },
+      });
       const updatedList = eventsList.filter((event) => event.id !== id);
       setEventsList(updatedList);
-    }).catch((err) => {
-      console.error(err.message);
-    });
+    } catch (err) {
+      console.error("Error deleting entry:", err.message);
+    }
   };
 
   const handleEdit = (event) => {
     setEventIdBeingEdited(event.id);
-    console.log("setting event id being edited:", event.id);
+    // console.log("setting event id being edited:", event.id);
     setEditDescription(event.description);
   };
 
   const handleEditSubmit = async (e) => {
-    e.preventDefault(); //prevents page from refreshing
+    e.preventDefault(); // Prevents page from refreshing
     try {
       const url = `${baseUrl}/entries/${eventIdBeingEdited}/`;
-      console.log(url);
       const csrfToken = getCookie('csrftoken');
-      const data = await axios.put(url, {
+      const response = await axios.put(
+        url,
+        { description: editDescription }, // Updated description
+        {
+          withCredentials: true,
           headers: {
-            'X-CSRFToken': csrfToken
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
           },
-          description: editDescription });
-      // console.log(editDescription);
-      const updatedEvent = data.data.event;
-      const updatedlist = eventsList.map((event) => {
-        if (event.id === eventIdBeingEdited) {
-          return (event = updatedEvent);
         }
-        return event;
-      });
-      setEventsList(updatedlist);
-      setDescription("");
+      );
+      const updatedEvent = response.data;
+      const updatedList = eventsList.map((event) =>
+        event.id === eventIdBeingEdited ? updatedEvent : event
+      );
+      setEventsList(updatedList);
+      setEditDescription("");
       setEventIdBeingEdited(null);
     } catch (err) {
-      console.error(err.message);
+      console.error("Error updating entry:", err.message);
     }
   };
 
@@ -122,10 +129,10 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevents page from refreshing
     try {
-      console.log("DOING SUBMIT!");
-      console.log(`${baseUrl}/entries/`, { description });
+      // console.log("DOING SUBMIT!");
+      // console.log(`${baseUrl}/entries/`, { description });
       const csrfToken = getCookie('csrftoken');
-      console.log("Doing POST, csrftoken is ", csrfToken);
+      // console.log("Doing POST, csrftoken is ", csrfToken);
       const data = await axios.post(`${baseUrl}/entries/`, 
         {
           "description": description,  // Data payload
@@ -138,7 +145,8 @@ console.log("\n\n\nCSRF TOKEN: ", csrfToken, "\n\n\n");
           },
           // credentials: 'include',
         });
-      setEventsList([...eventsList, data.data]);
+      // setEventsList([...eventsList, data.data]);
+      fetchEvents();
       setDescription("");
     } catch (err) {
       console.error("Submit failed with error message: ", err.message);

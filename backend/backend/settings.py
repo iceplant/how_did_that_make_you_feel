@@ -81,7 +81,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-CSRF_COOKIE_SECURE = True  # Set to True if using HTTPS
+CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = False  # So the session cookie can be accessed by JavaScript
 SESSION_COOKIE_SAMESITE = 'None'  # Or 'None' for cross-origin requests

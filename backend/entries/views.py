@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.exceptions import PermissionDenied
  
 # import view sets from the REST framework
 from rest_framework import viewsets, permissions, status
@@ -28,14 +29,31 @@ from .validations import custom_validation, validate_email, validate_password
 # create a class for the Todo model viewsets
 # @csrf_exempt
 class EntryView(viewsets.ModelViewSet):
- 
-    # create a serializer class and 
-    # assign it to the TodoSerializer class
     serializer_class = EntrySerializer
- 
-    # define a variable and populate it 
-    # with the Todo list objects
-    queryset = Entry.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [SessionAuthentication]
+
+    def get_queryset(self):
+        # Return only entries belonging to the logged-in user
+        return Entry.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically associate the logged-in user with the new entry
+        serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        # Ensure the logged-in user is the owner of the entry
+        entry = self.get_object()
+        if entry.user != request.user:
+            raise PermissionDenied("You do not have permission to update this entry.")
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        # Ensure the logged-in user is the owner of the entry
+        entry = self.get_object()
+        if entry.user != request.user:
+            raise PermissionDenied("You do not have permission to delete this entry.")
+        return super().destroy(request, *args, **kwargs)
 
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -85,3 +103,9 @@ class UserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({"message": "CSRF cookie set"})
+
+

@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from entries.views import get_csrf_token  # Corrected import
+
+
 
 from entries import views
 from rest_framework import routers
@@ -30,4 +33,5 @@ urlpatterns = [
 	path('login/', views.UserLogin.as_view(), name='login'),
 	path('logout/', views.UserLogout.as_view(), name='logout'),
 	path('user/', views.UserView.as_view(), name='user'),
+  path("api/csrf/", get_csrf_token, name="get_csrf_token"),
 ]
