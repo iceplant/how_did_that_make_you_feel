@@ -1,10 +1,27 @@
 from django.db import models
+from django.conf import settings
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from .roberta import compute_hugging_face_roberta_emotions
+# from .roberta import compute_hugging_face_roberta_emotions
 from textblob import TextBlob
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+import json
+import requests
 
+
+def compute_hugging_face_roberta_emotions_with_microservice(text):
+	# EMOTION_API_URL is defined in settings.py This is specific to the microservice
+  url = getattr(settings, "EMOTION_API_URL", "http://127.0.0.1:8001/emotion")
+  headers = {"Content-Type": "application/json"}
+  data = json.dumps({"text": text})
+
+  try:
+      response = requests.post(url, headers=headers, data=data, timeout=5)
+      response.raise_for_status()  # Raise error for bad responses (4xx, 5xx)
+      print("response: \n\n\n", response.json())
+      return response.json()
+  except requests.exceptions.RequestException as e:
+      return {"error": f"Request failed: {str(e)}"}
 
 sid = SentimentIntensityAnalyzer()
 
@@ -29,7 +46,9 @@ class Entry(models.Model):
 
     @property
     def emotions(self):
-      emotions_json = compute_hugging_face_roberta_emotions(self.description)
+      emotions_json = compute_hugging_face_roberta_emotions_with_microservice(self.description)
+      print("emosions_json: ", emotions_json)
+      print("emotions_json shape: ", emotions_json.shape)
       return emotions_json
     
     @property
