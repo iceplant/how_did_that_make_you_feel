@@ -4,7 +4,25 @@ from .roberta import compute_hugging_face_roberta_emotions
 from textblob import TextBlob
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+import requests
 
+def compute_hugging_face_roberta_emotions_with_microservice(text):
+    """
+    Calls the emotion analysis API and returns the response.
+
+    :param text: The text to analyze.
+    :return: The JSON response or an error message.
+    """
+    url = "http://127.0.0.1:8001/emotion"
+    headers = {"Content-Type": "application/json"}
+    payload = {"text": text}
+
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=5)
+        response.raise_for_status()  # Raise an error for HTTP 4xx/5xx responses
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
 
 sid = SentimentIntensityAnalyzer()
 
@@ -30,6 +48,8 @@ class Entry(models.Model):
     @property
     def emotions(self):
       emotions_json = compute_hugging_face_roberta_emotions(self.description)
+      microservice_emotions_json = compute_hugging_face_roberta_emotions_with_microservice(self.description)
+      print("emotions json: ", emotions_json, "microservices json: ", microservice_emotions_json)
       return emotions_json
     
     @property

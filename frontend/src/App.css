@@ -1,0 +1,418 @@
+:root {
+  /* Primary Colors (Blues) */
+  --color-primary-light: #4a90e2; /* Light blue for buttons and highlights */
+  --color-primary: #0353a4; /* Medium blue for buttons and accents */
+  --color-primary-dark: #023e7d; /* Dark blue for strong emphasis */
+
+  /* Neutral Colors (Grays and Whites) */
+  --color-neutral-light: #f9f9f9; /* Very light gray for background */
+  --color-neutral: #e0e0e0; /* Light gray for borders and dividers */
+  --color-neutral-dark: #5c677d; /* Dark gray for secondary text */
+
+  /* Text Colors */
+  --color-text-black: #000000; /* Black for primary text */
+  --color-text-gray: #333333; /* Dark gray for secondary text */
+
+  /* Accent Color (Beige) */
+  --color-accent: #f4d9c6; /* Soft beige for trim or emphasis */
+
+  /* Background Colors */
+  --color-background: #ffffff; /* White for main background */
+  --color-background-alt: #f9f9f9; /* Very light gray for alternate sections */
+}
+/* Global styles */
+body {
+  font-family: Georgia, Arial, sans-serif;
+  background-color: var(--color-neutral-light); /* Neutral light for a calming background */
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-light); /* Light text color */
+}
+
+h2 {
+  text-align: center;
+  color: var(--color-primary-light); /* Primary light for headings */
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px; /* Position the button near the bottom */
+  right: 20px; /* Position the button near the right edge */
+  background-color: var(--color-primary); /* Medium blue */
+  color: var(--color-background); /* White text */
+  border: none;
+  border-radius: 50px; /* Rounded button */
+  padding: 15px 25px; /* Add padding for a larger, clickable area */
+  font-size: 16px; /* Adjust font size for readability */
+  font-weight: bold; /* Make the text bold */
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transitions for hover and active states */
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.floating-button:hover {
+  background-color: var(--color-primary-light); /* Light blue for hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover */
+  transform: translateY(-2px); /* Lift the button slightly */
+}
+
+.floating-button:active {
+  background-color: var(--color-primary-dark); /* Dark blue for active state */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow on click */
+  transform: translateY(1px); /* Slightly depress the button */
+}
+
+.text_box {
+  width: 90%; /* Reduce width to leave space on the sides */
+  height: 300px; /* Increase height to take up more vertical space */
+  margin: 20px auto; /* Add space around the edges and center horizontally */
+  padding: 10px; /* Add padding inside the text box */
+  border: 1px solid var(--color-neutral-dark); /* Neutral dark for border */
+  border-radius: 8px; /* Slightly round the corners */
+  font-size: 16px; /* Adjust font size for readability */
+  resize: vertical; /* Allow vertical resizing */
+  display: block; /* Ensure it behaves like a block element */
+}
+
+
+.logged-in-info {
+  text-align: right; /* Align text to the right */
+  color: var(--color-text-dark); /* Ensure the text color matches the navbar */
+}
+
+.logged-in-info h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.logged-in-info h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.navbar .navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar button {
+  background-color: var(--color-text-dark); /* Dark text color for button background */
+  color: var(--color-primary-light); /* Primary light for button text */
+  border: 1px solid var(--color-primary-dark); /* Primary dark for border */
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar button:hover {
+  background-color: var(--color-primary-dark); /* Primary dark for hover background */
+  color: var(--color-text-light); /* Light text color for hover text */
+}
+
+.user-bubble {
+  position: fixed;
+  bottom: 80px; /* Position above the logout button */
+  right: 20px; /* Align with the logout button */
+  background-color: var(--color-primary-light); /* Light blue */
+  color: var(--color-background); /* White text */
+  border: none;
+  border-radius: 50px; /* Rounded bubble */
+  padding: 10px 20px; /* Add padding for a clean look */
+  font-size: 14px; /* Adjust font size for readability */
+  font-weight: bold; /* Make the text bold */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1000; /* Ensure it stays above other elements */
+  text-align: center;
+  cursor: default; /* No pointer cursor since it's not clickable */
+}
+
+/* Form container */
+.center {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--color-text-dark); /* Dark text color for form background */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+form textarea,
+form input {
+  padding: 10px;
+  border: 1px solid var(--color-neutral-dark); /* Neutral dark for input border */
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+form textarea:focus,
+form input:focus {
+  border-color: var(--color-primary-light); /* Primary light for focus border */
+  outline: none;
+  box-shadow: 0 0 5px rgba(4, 102, 200, 0.5); /* Primary light shadow */
+}
+
+form button {
+  padding: 10px 15px;
+  background-color: var(--color-primary-light); /* Primary light for button background */
+  color: var(--color-text-dark); /* Dark text color for button text */
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: var(--color-primary-dark); /* Primary dark for hover background */
+}
+
+/* Entry list */
+ul {
+  margin-top: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+li {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: var(--color-text-dark); /* Dark text color for list item background */
+  border-radius: 4px;
+  border: 1px solid var(--color-neutral-dark); /* Neutral dark for border */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+  background-color: var(--color-neutral-dark); /* Neutral dark for hover background */
+}
+
+li button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: var(--color-primary-light); /* Primary light for button background */
+  color: var(--color-text-dark); /* Dark text color for button text */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: var(--color-primary-dark); /* Primary dark for hover background */
+}
+
+/* Chart container */
+.chart-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--color-text-dark); /* Dark text color for chart background */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Emotion checkboxes */
+.emotions_checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotions_checkboxes div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.emotions_checkboxes input[type="checkbox"] {
+  accent-color: var(--color-primary-light); /* Primary light for checkbox accent */
+}
+
+.emotions_checkboxes label {
+  font-size: 14px;
+  color: var(--color-neutral-dark); /* Neutral dark for label text */
+}
+
+/* Global styles */
+body {
+  font-family: Georgia, Arial, sans-serif;
+  background-color: var(--color-neutral-light); /* Neutral light for a calming background */
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-light); /* Light text color */
+}
+
+h2 {
+  text-align: center;
+  color: var(--color-primary-light); /* Primary light for headings */
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.logged-in-info {
+  text-align: right; /* Align text to the right */
+  color: var(--color-text-dark); /* Ensure the text color matches the navbar */
+}
+
+.logged-in-info h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.logged-in-info h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Form container */
+.center {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--color-text-dark); /* Dark text color for form background */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+form textarea,
+form input {
+  padding: 10px;
+  border: 1px solid var(--color-neutral-dark); /* Neutral dark for input border */
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+form textarea:focus,
+form input:focus {
+  border-color: var(--color-primary-light); /* Primary light for focus border */
+  outline: none;
+  box-shadow: 0 0 5px rgba(4, 102, 200, 0.5); /* Primary light shadow */
+}
+
+form button {
+  padding: 10px 15px;
+  background-color: var(--color-primary-light); /* Primary light for button background */
+  color: var(--color-text-dark); /* Dark text color for button text */
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: var(--color-primary-dark); /* Primary dark for hover background */
+}
+
+/* Entry list */
+ul {
+  margin-top: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+li {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: var(--color-text-dark); /* Dark text color for list item background */
+  border-radius: 4px;
+  border: 1px solid var(--color-neutral-dark); /* Neutral dark for border */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+  background-color: var(--color-neutral-dark); /* Neutral dark for hover background */
+}
+
+li button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: var(--color-primary-light); /* Primary light for button background */
+  color: var(--color-text-dark); /* Dark text color for button text */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: var(--color-primary-dark); /* Primary dark for hover background */
+}
+
+/* Chart container */
+.chart-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--color-text-dark); /* Dark text color for chart background */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Emotion checkboxes */
+.emotions_checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotions_checkboxes div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.emotions_checkboxes input[type="checkbox"] {
+  accent-color: var(--color-primary-light); /* Primary light for checkbox accent */
+}
+
+.emotions_checkboxes label {
+  font-size: 14px;
+  color: var(--color-neutral-dark); /* Neutral dark for label text */
+}

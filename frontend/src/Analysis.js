@@ -256,7 +256,7 @@ const csrfToken = getCookie('csrftoken');
 
   return (
     <><h2>How are you doing today? What happened? How did that make you feel?</h2><section>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={"center"}>
           <label htmlFor="description"></label>
           <textarea
             className={styles.text_box}
