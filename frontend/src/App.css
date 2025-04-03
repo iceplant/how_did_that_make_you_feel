@@ -29,12 +29,6 @@ body {
   color: var(--color-text-light); /* Light text color */
 }
 
-h2 {
-  text-align: center;
-  color: var(--color-primary-light); /* Primary light for headings */
-  margin-top: 20px;
-}
-
 ul {
   list-style-type: none;
   padding: 0;
@@ -271,6 +265,8 @@ h2 {
   text-align: center;
   color: var(--color-primary-light); /* Primary light for headings */
   margin-top: 20px;
+  font-size: 2.5rem; /* Increase font size for consistency */
+  font-weight: bold;
 }
 
 ul {
@@ -396,9 +392,10 @@ li button:hover {
 /* Emotion checkboxes */
 .emotions_checkboxes {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; 
+  align-items: flex-start;
   gap: 10px;
-  justify-content: center;
+  /* justify-content: center; */
   margin: 20px 0;
 }
 
@@ -415,4 +412,17 @@ li button:hover {
 .emotions_checkboxes label {
   font-size: 14px;
   color: var(--color-neutral-dark); /* Neutral dark for label text */
+}
+
+/* Adjust the chart container to leave space for emotions */
+.chart-container {
+  display: flex;
+  flex-direction: row; /* Place emotions and chart side by side */
+  align-items: flex-start; /* Align items to the top */
+  gap: 20px; /* Add spacing between emotions and chart */
+}
+
+.line-chart {
+  flex: 1; /* Allow the chart to take up remaining space */
+  max-width: 70%; /* Limit the chart width */
 }
