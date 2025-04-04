@@ -48,6 +48,7 @@ const Analysis = memo(() => {
         },
       })
       .then((resp) => {
+        console.log("\n\n\nevents: ", resp.data, "\n\n\n");
         const events = resp.data;
         // console.log("events: ", events, typeof(events));
         setEventsList(events);
@@ -200,9 +201,18 @@ const Analysis = memo(() => {
   // TODO: get correct data for each emotion
   const datasets = checked_emotions.map((emotion) => ({
     label: emotion,
-    data: eventsList.map(
-      (event) => event.emotions[0][emotions.indexOf(emotion)].score
-    ),
+    data: eventsList.map((event) => {
+      // Check if the event has an emotions field and if it's an array
+      if (event.emotions && Array.isArray(event.emotions) && event.emotions[0]) {
+        const emotionIndex = emotions.indexOf(emotion);
+        // Check if the emotion index exists in the emotions array
+        if (event.emotions[0][emotionIndex]) {
+          return event.emotions[0][emotionIndex].score;
+        }
+      }
+      // Return a default value (e.g., 0) if the emotions field is missing or invalid
+      return 0;
+    }),
     fill: true,
     backgroundColor: "rgba(75,192,192,0.2)",
     borderColor: "rgba(75,192,192,1)",

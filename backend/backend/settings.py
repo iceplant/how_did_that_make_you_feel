@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'computedfields',
 ]
 
 CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS
