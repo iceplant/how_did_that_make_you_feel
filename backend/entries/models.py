@@ -1,6 +1,6 @@
 from django.db import models
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from .roberta import compute_hugging_face_roberta_emotions
+# from .roberta import compute_hugging_face_roberta_emotions
 from textblob import TextBlob
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -20,7 +20,7 @@ def compute_hugging_face_roberta_emotions_with_microservice(text):
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=5)
         response.raise_for_status()  # Raise an error for HTTP 4xx/5xx responses
-        return response.json()
+        return response.json()['emotions']
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
 
@@ -47,10 +47,10 @@ class Entry(models.Model):
 
     @property
     def emotions(self):
-      emotions_json = compute_hugging_face_roberta_emotions(self.description)
+      # emotions_json = compute_hugging_face_roberta_emotions(self.description)
       microservice_emotions_json = compute_hugging_face_roberta_emotions_with_microservice(self.description)
-      print("emotions json: ", emotions_json, "microservices json: ", microservice_emotions_json)
-      return emotions_json
+      # print("\n\n\nemotions json: ", emotions_json, "\n\n\nmicroservices json: ", microservice_emotions_json)
+      return microservice_emotions_json
     
     @property
     def blob_sentiment(self):
