@@ -10,15 +10,6 @@ from computedfields.models import ComputedFieldsModel
 from computedfields.models import ComputedFieldsModel, computed, compute
 
 def compute_hugging_face_roberta_emotions_with_microservice(text):
-    """
-    Calls the emotion analysis API and returns the response.
-
-    :param text: The text to analyze.
-    :return: The JSON response or an error message.
-    """
-		
-    # print("\n\n\n OMG I AM IN THE FUNCTION DOING THE EXPENSIVE CALCULATION!!! \n\n\n")
-
     url = "http://127.0.0.1:8001/emotion"
     headers = {"Content-Type": "application/json"}
     payload = {"text": text}
@@ -60,65 +51,6 @@ class Entry(ComputedFieldsModel):
             # self.subjectivity = blob.subjectivity
 
         super().save(*args, **kwargs)
-
-
-    # sentiment = models.FloatField(default=0)
-    # emotions = models.JSONField(default=[])
-    # blob_sentiment = models.JSONField(default={})
-
-    # def save(self, *args, **kwargs):
-    #   # Recompute emotions and sentiment if the description changes
-    #   if self.pk:  # Check if the object already exists in the database
-    #       original = Entry.objects.get(pk=self.pk)
-    #       if original.description != self.description:
-    #           self.emotions = compute_hugging_face_roberta_emotions_with_microservice(self.description)
-    #           ss = sid.polarity_scores(self.description)
-    #           self.sentiment = ss['compound']
-    #           self.blob_sentiment = TextBlob(self.description).sentiment
-    #   else:
-    #       # Compute emotions for new entries
-    #       self.emotions = compute_hugging_face_roberta_emotions_with_microservice(self.description)
-    #       ss = sid.polarity_scores(self.description)
-    #       self.sentiment = ss['compound']
-    #       self.blob_sentiment = TextBlob(self.description).sentiment
-
-      # super().save(*args, **kwargs)
-
-    # @computed(models.JSONField(default=dict), depends=[('self', ['description'])])
-    # def emotions(self):
-    #     return compute_hugging_face_roberta_emotions_with_microservice(self.description)
-
-    # @computed(models.FloatField(default=0), depends=[('self', ['description'])])
-    # def sentiment(self):
-    #     ss = sid.polarity_scores(self.description)
-    #     return ss['compound']
-
-    # @computed(models.JSONField(default=dict), depends=[('self', ['description'])])
-    # def blob_sentiment(self):
-    #     return TextBlob(self.description).sentiment._asdict()
-
-
-
-    # @property
-    # def sentiment(self):
-    #     # print("reached sentiment calculation")
-    #     # print("description: ", self.description)
-    #     ss = sid.polarity_scores(self.description)
-    #     # print(f"ss is {ss}")
-    #     return ss['compound']
-
-    # @property
-    # def emotions(self):
-    #   # emotions_json = compute_hugging_face_roberta_emotions(self.description)
-    #   microservice_emotions_json = compute_hugging_face_roberta_emotions_with_microservice(self.description)
-    #   # print("\n\n\nemotions json: ", emotions_json, "\n\n\nmicroservices json: ", microservice_emotions_json)
-    #   return microservice_emotions_json
-    
-    # @property
-    # def blob_sentiment(self):
-    #   #  return {"polarity" : "Your mom", "subjectivity" : "your dad"}
-    #   return TextBlob(self.description).sentiment
-
 
     def __str__(self):
       #it will return the title

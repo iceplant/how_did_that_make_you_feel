@@ -48,7 +48,7 @@ const Analysis = memo(() => {
         },
       })
       .then((resp) => {
-        console.log("\n\n\nevents: ", resp.data, "\n\n\n");
+        // console.log("\n\n\nevents: ", resp.data, "\n\n\n");
         const events = resp.data;
         // console.log("events: ", events, typeof(events));
         setEventsList(events);

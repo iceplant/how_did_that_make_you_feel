@@ -11,35 +11,6 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 axios.defaults.withCredentials = true;
 
-// const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
-
-// const getCookie = (name) => {
-//   const cookieValue = document.cookie
-//       .split('; ')
-//       .find(row => row.startsWith(name + '='))
-//       ?.split('=')[1];
-//   return cookieValue;
-// };
-// const csrfToken = getCookie('csrftoken');
-
-// const baseURL = "http://127.0.0.1:8000/";
-
-// const client = axios.create({
-//   baseURL: baseURL,
-//   headers: {
-//     'X-CSRFToken': csrfToken
-//   }
-// })
-
-// const fetchCsrfToken = async () => {
-//   try {
-//     await axios.get(`${baseURL}api/csrf/`);
-//     console.log("CSRF token set successfully");
-//   } catch (error) {
-//     console.error("Error setting CSRF token:", error.response?.data || error.message);
-//   }
-// };
-
 const UserAuth = ({
   registrationToggle,
   setRegistrationToggle,
@@ -123,42 +94,6 @@ const UserAuth = ({
         setIsLoggedIn(true);
       });
   }
-
-  // function submitLogout(e) {
-  //   e.preventDefault();
-  //   client.post("/logout/", { withCredentials: true }).then(function (res) {
-  //     setCurrentUser(false);
-  //     setEmail("");
-  //     setUsername("");
-  //   });
-  // }
-
-  // if (currentUser) {
-  //   return (
-  //     <div className="center vertical-align">
-  //       <Navbar bg="dark" variant="dark">
-  //         <Container>
-  //           {/* <Navbar.Brand></Navbar.Brand> */}
-  //           {/* <Navbar.Toggle /> */}
-  //           <Navbar.Collapse className="justify-content-end">
-  //             <div className="navbar-content">
-  //               <div className="logged-in-info">
-  //                 <h2>You're logged in!</h2>
-  //                 <h3>email: {email}</h3>
-  //                 <h3>username: {username}</h3>
-  //               </div>
-  //               {/* <form onSubmit={(e) => submitLogout(e)}>
-  //                 <Button type="submit" variant="light">
-  //                   Log out
-  //                 </Button>
-  //               </form> */}
-  //             </div>
-  //           </Navbar.Collapse>
-  //         </Container>
-  //       </Navbar>
-  //     </div>
-  //   );
-  // }
   return (
     <div>
       {registrationToggle ? (
