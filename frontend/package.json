@@ -10,6 +10,7 @@
     "chartjs-adapter-moment": "^1.0.1",
     "date-fns": "^3.6.0",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
