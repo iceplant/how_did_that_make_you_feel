@@ -24,9 +24,12 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'entries',views.EntryView, 'entry')
 
+def home(request):
+    return HttpResponse("Hello from Django on Render!")
 
 
 urlpatterns = [
+  path('', home, name='home'),
   path('admin/', admin.site.urls),
   path('api/', include(router.urls)),
   path('register/', views.UserRegister.as_view(), name='register'),
