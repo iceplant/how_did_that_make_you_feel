@@ -8,7 +8,9 @@ import "chartjs-adapter-moment";
 // import styles from "./App.module.css";
 import UserAuth from "./UserAuth";
 
-const baseUrl = "http://127.0.0.1:8000/api";
+// const baseUrl = "http://127.0.0.1:8000/api";
+// frontend/src/Analysis.js
+const baseUrl = process.env.REACT_APP_API_URL || "https://your-backend-app.onrender.com/api";
 
 // axios.defaults.xsrfCookieName = 'csrftoken';
 // axios.defaults.xsrfHeaderName = 'X-CSRFToken';
