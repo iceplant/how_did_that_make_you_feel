@@ -3,7 +3,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 # from .roberta import compute_hugging_face_roberta_emotions
 from textblob import TextBlob
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
 import requests
 
 from computedfields.models import ComputedFieldsModel
@@ -78,11 +78,29 @@ class AppUserManager(BaseUserManager):
 		return user  
 
 class AppUser(AbstractBaseUser, PermissionsMixin):
-	user_id = models.AutoField(primary_key=True)
-	email = models.EmailField(max_length=50, unique=True)
-	username = models.CharField(max_length=50)
-	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = ['username']
-	objects = AppUserManager()
-	def __str__(self):
-		return self.username
+    user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(max_length=50, unique=True)
+    username = models.CharField(max_length=50)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    
+    objects = AppUserManager()
+    
+    def __str__(self):
+        return self.username
+    
+    # Override groups and user_permissions with unique related_names:
+    groups = models.ManyToManyField(
+        Group,
+        blank=True,
+        related_name='appuser_groups'
+    )
+    
+    user_permissions = models.ManyToManyField(
+        Permission,
+        blank=True,
+        related_name='appuser_permissions'
+    )
+    
+    class Meta:
+        swappable = 'AUTH_USER_MODEL'
