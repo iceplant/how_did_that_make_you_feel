@@ -1,13 +1,22 @@
 from django.db import models
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
 # from .roberta import compute_hugging_face_roberta_emotions
 from textblob import TextBlob
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
 import requests
 
-from computedfields.models import ComputedFieldsModel
 from computedfields.models import ComputedFieldsModel, computed, compute
+
+import nltk
+
+try:
+    nltk.data.find('sentiment/vader_lexicon.zip/vader_lexicon/vader_lexicon.txt')
+except LookupError:
+    nltk.download('vader_lexicon')
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+sid = SentimentIntensityAnalyzer()
 
 def compute_hugging_face_roberta_emotions_with_microservice(text):
     url = "http://127.0.0.1:8001/emotion"
