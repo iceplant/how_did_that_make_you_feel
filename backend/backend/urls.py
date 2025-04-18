@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from entries.views import get_csrf_token  # Corrected import
-
+from django.http import HttpResponse
 
 
 from entries import views
